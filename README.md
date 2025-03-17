@@ -42,6 +42,7 @@ Create a `.env` file in the root directory with:
 
 ```env
 SYNAPSE_AUTH_TOKEN=your_token_here
+DATASET_ID=dataset_id_to_download
 ```
 
 ## Usage
