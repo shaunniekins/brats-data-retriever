@@ -2,6 +2,7 @@ import synapseclient
 import synapseutils
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
 # Load environment variables from .env file
 load_dotenv()
@@ -20,13 +21,17 @@ try:
     if not dataset_id:
         raise ValueError("DATASET_ID not found in .env file")
 
+    # Create destination folder in Downloads directory
+    downloads_dir = os.path.join(Path.home(), "Downloads", "brats-data")
+    os.makedirs(downloads_dir, exist_ok=True)
+
     # Login to Synapse
     syn.login(authToken=auth_token)
 
-    # Download files from Synapse using the dataset ID from env
-    files = synapseutils.syncFromSynapse(syn, dataset_id)
+    # Download files from Synapse using the dataset ID from env with the specified destination path
+    files = synapseutils.syncFromSynapse(syn, dataset_id, path=downloads_dir)
 
-    print(f"Successfully downloaded {len(files)} files")
+    print(f"Successfully downloaded {len(files)} files to {downloads_dir}")
 
 except Exception as e:
     print(f"An error occurred: {e}")
